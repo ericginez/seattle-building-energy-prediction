@@ -1,0 +1,31 @@
+[project]
+name = "projet_06"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "Eric Ginez",email = "eric.ginez@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+  "pandas (>=3.0.1,<4.0.0)",
+  "numpy (>=2.4.2,<3.0.0)",
+  "scikit-learn (>=1.8.0,<2.0.0)",
+  "bentoml (>=1.4.35,<2.0.0)"
+]
+
+[tool.poetry]
+package-mode = false
+
+[dependency-groups]
+dev = [
+  "jupyter (>=1.1.1,<2.0.0)",
+  "ipykernel (>=7.2.0,<8.0.0)",
+  "matplotlib (>=3.10.8,<4.0.0)",
+  "seaborn (>=0.13.2,<0.14.0)",
+  "shap (>=0.45.0,<1.0.0)"
+]
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"

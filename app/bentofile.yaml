@@ -1,0 +1,71 @@
+# ======================================================================
+# BentoML configuration file
+# Projet 06 – Déploiement API Machine Learning (OpenClassrooms)
+# ======================================================================
+
+# ----------------------------------------------------------------------
+# Point d’entrée du service
+# Format : "<module_path>:<ServiceClass>"
+# Ici : fichier src/service.py → classe SeattleEnergyAPI
+# ----------------------------------------------------------------------
+service: "src.service:SeattleEnergyAPI"
+
+# ----------------------------------------------------------------------
+# Métadonnées associées au Bento
+# Utilisées pour traçabilité, CI/CD, gouvernance ou filtrage
+# ----------------------------------------------------------------------
+labels:
+  project: "openclassrooms-p6"
+  stage: "production"
+  owner: "eric ginez"
+
+# ----------------------------------------------------------------------
+# Description longue incluse dans le Bento
+# Visible via `bentoml list` ou BentoCloud
+# ----------------------------------------------------------------------
+description: |
+  API de prédiction de consommation énergétique (Seattle).
+  Modèle RandomForest optimisé via GridSearchCV.
+  Déploiement containerisé pour exécution sur Google Cloud Run.
+
+# ----------------------------------------------------------------------
+# Fichiers inclus dans le build
+# On limite volontairement au strict nécessaire pour :
+# - réduire la taille de l'image
+# - éviter d'embarquer notebooks, datasets, fichiers temporaires
+# ----------------------------------------------------------------------
+include:
+  - "src/**"
+  - "pyproject.toml"
+  - "poetry.lock"
+  - "README.md"
+
+# ----------------------------------------------------------------------
+# Fichiers explicitement exclus
+# Eviter d’embarquer du bytecode Python
+# ----------------------------------------------------------------------
+exclude:
+  - "src/**/__pycache__/**"
+
+# ----------------------------------------------------------------------
+# Configuration environnement Python dans l’image finale
+# ----------------------------------------------------------------------
+python:
+  # Dépendances runtime strictement nécessaires à la prédiction
+  # (pas de matplotlib / seaborn / jupyter en production)
+  packages:
+    - bentoml==1.4.35
+    - pandas==3.0.1
+    - numpy==2.4.2
+    - scikit-learn==1.8.0
+
+  # Génère un lock interne pour reproductibilité
+  # Garantit que la même version des dépendances sera installée
+  lock_packages: true
+
+# ----------------------------------------------------------------------
+# Modèles BentoML embarqués dans le build
+# On référence explicitement le tag du modèle validé en production
+# ----------------------------------------------------------------------
+models:
+  - "seattle_energy_rf:6iuuoyyzhwbgekgq"
