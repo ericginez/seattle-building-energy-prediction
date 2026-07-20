@@ -91,3 +91,6 @@ dist/
 ~$*
 notebooks/Projet_06_export.md
 notebooks/Projet_06_export_files/
+
+# Présentations sources locales
+presentation/*.pptx
